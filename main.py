@@ -1,8 +1,8 @@
 from clases import *
-from datetime import date
-
-fecha_actual = date.now()
-campana= Campana("campana1",fecha_actual, fecha_final )
+from datetime import datetime
+f= datetime.now()
+fecha_actual = datetime.now()
+campana= Campana("campana1",fecha_actual ,f)
 
 
 
@@ -13,5 +13,12 @@ c.agregar_anuncio()
 print(c.anuncios)
 """
 
+a=Social(2,3,"tftr2","uyftf","frdd")
 
-a = Video(2,20,22,"de","gf","jkji")
+v = Video(12)
+
+d= Display(1,2,"fr","hfyrd","hgfytf")
+print(a,v,d)
+
+a.sub_tipo = "FACEBOOK"
+

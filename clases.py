@@ -50,7 +50,7 @@ class Anuncio(ABC):
        # si la instancia actual que es self(==) es igual a una instacia de video y self.subtipo == video
        #  o de social
        #  o de display.
-        if isinstance(self,Video) and sub_tipo in Video.SUB_TIPOS or isinstance(self.Social) and sub_tipo in Social.SUB_TIPOS or isinstance(self.Display) and sub_tipo in Display.SUB_TIPOS:
+        if isinstance(self,Video) and sub_tipo in Video.SUB_TIPOS or isinstance(self,Social) and sub_tipo in Social.SUB_TIPOS or isinstance(self,Display) and sub_tipo in Display.SUB_TIPOS:
             self.sub_tipo=sub_tipo
     
            
