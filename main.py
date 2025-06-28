@@ -2,7 +2,7 @@ from clases import *
 from datetime import datetime
 f= datetime.now()
 fecha_actual = datetime.now()
-campana= Campana("campana1",fecha_actual ,f)
+#campana= Campana("campana1",fecha_actual ,f)
 
 
 

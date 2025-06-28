@@ -50,8 +50,10 @@ class Anuncio(ABC):
        # si la instancia actual que es self(==) es igual a una instacia de video y self.subtipo == video
        #  o de social
        #  o de display.
-        if isinstance(self,Video) and sub_tipo in Video.SUB_TIPOS or isinstance(self,Social) and sub_tipo in Social.SUB_TIPOS or isinstance(self,Display) and sub_tipo in Display.SUB_TIPOS:
-            self.sub_tipo=sub_tipo
+        if (isinstance(self,Video) and sub_tipo in Video.SUB_TIPOS or isinstance(self,Social) and sub_tipo in Social.SUB_TIPOS or isinstance(self,Display) and sub_tipo in Display.SUB_TIPOS):
+            self.__sub_tipo=sub_tipo
+        else:
+            raise SubTipoInvalidoError("Error de tipo invalido.")
     
            
 ####################################################################################
@@ -78,13 +80,13 @@ class Anuncio(ABC):
 
 class Campana:
     def __init__(self,nombre,fecha_inicio,fecha_termino):
-        anuncios = []
+       
         self.__nombre =nombre
         self.__fecha_inicio = fecha_inicio
         self.__fecha_termino = fecha_termino
-        self.__anuncio = [self.componer_anuncios()]
+        self.__anuncios = [self.componer_anuncio()]
 
-    def componer_anuncios(self):
+    def componer_anuncio(self):
 
         opcion = int(input("que tipo de anuncio quiere 1-para video 2_para display, 3-para social"))
         if opcion ==1:
@@ -94,7 +96,7 @@ class Campana:
             new_anuncio = Display()
         elif opcion ==3:
             new_anuncio = Social()
-##  self.__anuncios.append(new_anuncio)
+
         return new_anuncio
 
     def agregar_anuncio(self):        
@@ -107,7 +109,7 @@ class Campana:
                 elif opcion == 2:
                     new_anuncio = Display()
                 elif opcion == 3:
-                    new_opcion = Social()
+                    new_anuncio = Social()
                 else:
                     break
                 self.__anuncios.append(new_anuncio)
@@ -143,10 +145,7 @@ class Campana:
     def fecha_termino(self, fecha_termino):
         self.__fecha_termino = fecha_termino
 
-    @property
-    def fecha_termino(self):
-        return self.__fecha_termino
-    
+       
     @property
     def anuncios(self):
         return self.__anuncios
@@ -163,10 +162,11 @@ class Video(Anuncio):
     FORMATO = "Video"
     SUB_TIPOS = ("instream", "outstream")  ## Parentesis redondo para especificar una tupla
 
-    def __init__(self,duracion):
+    def __init__(self,duracion, subtipo):
         self.ancho =1
         self.alto = 1
         self.__duracion = duracion if duracion > 0 else 5
+        self.sub_tipo = subtipo
 
     @property
     def duracion(self):
