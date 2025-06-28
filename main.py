@@ -1,4 +1,11 @@
 from clases import *
+from datetime import date
+
+fecha_actual = date.now()
+campana= Campana("campana1",fecha_actual, fecha_final )
+
+
+
 
 """
 c=Campana("tdtr","fuf","hgffyd")
