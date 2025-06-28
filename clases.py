@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from error import largoExcedidoError, SubTipoInvalidoError
 
 class Anuncio(ABC):
     def __init__(self,ancho,alto,url_archivo,url_click,sub_tipo):
@@ -21,7 +21,7 @@ class Anuncio(ABC):
     def alto(self):
         return self.__alto
     
-    @ancho.setter
+    @alto.setter
     def alto(self,alto):
         self.__alto = alto
 
@@ -37,7 +37,7 @@ class Anuncio(ABC):
     def url_click(self):
         return self.__url_click
     
-    @ancho.setter
+    @url_click.setter
     def url_click(self,url_click):
         self.__url_click = url_click
 
@@ -45,9 +45,17 @@ class Anuncio(ABC):
     def sub_tipo(self):
         return self.__sub_tipo
     
-    @ancho.setter
+    @sub_tipo.setter
     def sub_tipo(self,sub_tipo):
-        self.__sub_tipo = sub_tipo
+       # si la instancia actual que es self(==) es igual a una instacia de video y self.subtipo == video
+       #  o de social
+       #  o de display.
+        if isinstance(self,Video) and sub_tipo in Video.SUB_TIPOS or isinstance(self.Social) and sub_tipo in Social.SUB_TIPOS or isinstance(self.Display) and sub_tipo in Display.SUB_TIPOS:
+            self.sub_tipo=sub_tipo
+    
+           
+####################################################################################
+
 
     @staticmethod
     def mostrar_formatos():
@@ -89,27 +97,62 @@ class Campana:
 ##  self.__anuncios.append(new_anuncio)
         return new_anuncio
 
-    def agregar_anuncio(self):
-
-        estado = True
-        while estado:
+    def agregar_anuncio(self):        
+        while True:
             try:
                 opcion = int(input("que tipo de anuncio quieres 1 para video 2 para diplay y 3 para social"))
                 if opcion ==1:
                     duracion =int(input("cual esla duracion del video minimo es 5 minutos"))
                     new_anuncio = Video(duracion)
-                    elif opcion == 2:
-                        new_anuncio = Display()
-                    elif opcion == 3:
-                        new_opcion = Social()
-                    elif opcion ==4:
-                        estado False
-                    self.__anuncios.append(new_anuncio)
+                elif opcion == 2:
+                    new_anuncio = Display()
+                elif opcion == 3:
+                    new_opcion = Social()
+                else:
+                    break
+                self.__anuncios.append(new_anuncio)
 
-                except Exception as e:
-                    pass
+            except Exception as e:
+                pass
+
+    @property
+    def nombre(self):
+        return self.__nombre
+
+    @nombre.setter
+    def nombre(self, nombre):
+        if len(nombre) <= 250:
+            self.__nombre = nombre
+        else:
+            raise  largoExcedidoError("el largo del texto supera los 250 caracteres")
+
+    @property
+    def fecha_inicio(self):
+        return self.__fecha_inicio
+
+    @fecha_inicio.setter
+    def fecha_inicio(self, fecha_inicio):
+        self.__fecha_inicio = fecha_inicio
 
 
+    @property
+    def fecha_termino(self):
+        return self.__fecha_termino
+
+    @fecha_termino.setter
+    def fecha_termino(self, fecha_termino):
+        self.__fecha_termino = fecha_termino
+
+    @property
+    def fecha_termino(self):
+        return self.__fecha_termino
+    
+    @property
+    def anuncios(self):
+        return self.__anuncios
+    
+    def __repr__(self):
+        return f"nombre de campana  :{self.nombre} - {self.__anuncios}"
 
 
 
@@ -141,10 +184,14 @@ class Video(Anuncio):
     def redimensionar_anuncio():
         print("recorte de video no implementado")
 
+    def __repr__(self):
+        return f"{Video.FORMATO} -{self.duracion}"
+
 class Display(Anuncio):
     FORMATO = "Display"
     SUB_TIPOS = ("tradicional", "native")  ## Parentesis redondo para especificar una tupla
-
+    def __init__(self, ancho, alto, url_archivo, url_click, sub_tipo):
+        super().__init__(ancho, alto, url_archivo, url_click, sub_tipo)
 
 
     def comprimir_anuncio():
@@ -154,12 +201,15 @@ class Display(Anuncio):
     def redimensionar_anuncio():
         print("recorte de video no implementado")
 
+    def __repr__(self):
+        return f"{Display.FORMATO}"
 
 class Social(Anuncio):
     FORMATO = "Social"
     SUB_TIPOS = ("facebook", "linkedin")  ## Parentesis redondo para especificar una tupla
 
-
+    def __init__(self, ancho, alto, url_archivo, url_click, sub_tipo):
+        super().__init__(ancho, alto, url_archivo, url_click, sub_tipo)
 
     def comprimir_anuncio():
         print("compresion de video no implementado aun")
@@ -168,7 +218,8 @@ class Social(Anuncio):
     def redimensionar_anuncio():
         print("recorte de video no implementado")
 
-
+    def __repr__(self):
+        return f"{Social.FORMATO}"
 
 
 

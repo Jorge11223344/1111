@@ -1,5 +1,10 @@
-from clases import Campana
+from clases import *
 
-
+"""
 c=Campana("tdtr","fuf","hgffyd")
-print(c)
+c.agregar_anuncio()
+print(c.anuncios)
+"""
+
+
+a = Video(2,20,22,"de","gf","jkji")
